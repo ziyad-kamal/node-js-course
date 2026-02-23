@@ -16,6 +16,13 @@ export const postValidator = [
         .isLength({ min: 2 })
         .withMessage("Content must be at least 10 characters long"),
 
+    body("content")
+        .trim()
+        .notEmpty()
+        .withMessage("Content is required")
+        .isLength({ min: 2 })
+        .withMessage("Content must be at least 10 characters long"),
+
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

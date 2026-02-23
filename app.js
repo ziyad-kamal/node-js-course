@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import flash from "connect-flash";
+
 import session from "express-session";
 
 async function connectDB() {

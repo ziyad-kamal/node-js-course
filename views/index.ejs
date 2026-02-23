@@ -9,6 +9,7 @@
 
 <body>
     <div>
+
         <form action="/users/post/store" method="post" enctype="multipart/form-data">
             <input type="file" name="image">
             <input type="text" value="<%= (messages.old && messages.old.title) ? messages.old.title : '' %>"

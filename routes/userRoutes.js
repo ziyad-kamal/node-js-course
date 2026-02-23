@@ -11,6 +11,7 @@ import {
 import { postValidator } from "../validators/postValidator.js";
 
 router.get("/posts", getPosts);
+
 router.get("/post/create", createPost);
 
 router.post("/post/store", [upload.single("image"), postValidator], storePosts);

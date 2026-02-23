@@ -21,6 +21,7 @@ const storePosts = async (req, res) => {
 
     // Generate a random filename (never use original name)
     const filename = `${crypto.randomBytes(16).toString("hex")}.webp`;
+
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
 
