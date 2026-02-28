@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import flash from "connect-flash";
-
 import session from "express-session";
+import errorHandler from "./app/middlewares/errorHandler.js";
 
 async function connectDB() {
     try {
@@ -13,6 +13,13 @@ async function connectDB() {
         console.error("MongoDB connection failed:", error.message);
     }
 }
+
+mongoose.set("toJSON", {
+    transform: (doc, ret) => {
+        delete ret.__v;
+        return ret;
+    },
+});
 
 connectDB();
 
@@ -53,6 +60,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/users", userRoutes);
+
+app.use(errorHandler);
 
 app.listen(3000);
 

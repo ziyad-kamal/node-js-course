@@ -5,7 +5,7 @@ const schema = mongoose.Schema;
 const postSchema = new schema({
     title: String,
     content: String,
-    file: String,
+    filePath: String,
 });
 
 const Post = mongoose.model("post", postSchema);

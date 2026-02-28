@@ -12,8 +12,7 @@
 
         <form action="/users/post/store" method="post" enctype="multipart/form-data">
             <input type="file" name="image">
-            <input type="text" value="<%= (messages.old && messages.old.title) ? messages.old.title : '' %>"
-                name="title" placeholder="title">
+            <input type="text" value="<%= messages.old.title || '' %>" name="title" placeholder="title">
             <% if ( messages.errors.title) { %>
                 <div>
                     <small style="color:red">
@@ -25,8 +24,8 @@
                 <% } %>
 
 
-                    <input type="text" value="<%= (messages.old && messages.old.content) ? messages.old.content : '' %>"
-                        name="content" placeholder="content">
+                    <input type="text" value="<%= ( messages.old.content) ? messages.old.content : '' %>" name="content"
+                        placeholder="content">
                     <% if ( messages.errors.content) { %>
                         <div>
                             <small style="color:red">

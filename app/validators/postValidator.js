@@ -1,5 +1,5 @@
-// src/validators/postValidator.js
 import { body, validationResult } from "express-validator";
+import { returnError } from "../utils/returnJson.js";
 
 export const postValidator = [
     body("title")
@@ -16,19 +16,18 @@ export const postValidator = [
         .isLength({ min: 2 })
         .withMessage("Content must be at least 10 characters long"),
 
-    body("content")
-        .trim()
-        .notEmpty()
-        .withMessage("Content is required")
-        .isLength({ min: 2 })
-        .withMessage("Content must be at least 10 characters long"),
-
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            req.flash("errors", errors.mapped());
-            req.flash("old", req.body);
-            return res.redirect("/users/post/create");
+            // req.flash("errors", errors.mapped());
+            // req.flash("old", req.body);
+
+            return returnError(
+                res,
+                "correct errors under each input",
+                422,
+                errors,
+            );
         }
         next();
     },
