@@ -21,7 +21,7 @@ const uploadImage = async (req, dir, width) => {
         .toFile(fileLocation);
 
     const filePath =
-        `${process.env.APP_URL || "http://localhost:3000"}/${dir.replace(/^public[\/\\]?/, "")}/${fileName}`.replace(
+        `${process.env.APP_URL}/${dir.replace(/^public[\/\\]?/, "")}/${fileName}`.replace(
             /\/+/g,
             "/",
         );
