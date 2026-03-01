@@ -1,4 +1,4 @@
-import Post from "../models/Posts.js";
+import Post from "../models/Post.js";
 import { returnSuccess } from "../utils/returnJson.js";
 import uploadImage from "../utils/uploadImage.js";
 
