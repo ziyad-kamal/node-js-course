@@ -1,5 +1,7 @@
 import { connectDB } from "../config/index.js";
+import seedComments from "./commentSeeder.js";
 import seedPosts from "./postsSeeder.js";
+import seedUsers from "./userSeeder.js";
 
 const seedAll = async () => {
     try {
@@ -7,8 +9,12 @@ const seedAll = async () => {
 
         console.log("🌱 Starting database seeding...");
 
-        await seedPosts();
-        // await seedProducts();
+        const createdUsers = await seedUsers(20);
+        const userIds = createdUsers.map((user) => user._id);
+        const createdPosts = await seedPosts(20, userIds);
+        const postIds = createdPosts.map((post) => post._id);
+
+        await seedComments(60, postIds, userIds);
 
         console.log("🎉 Database seeding completed successfully!");
         process.exit(0);

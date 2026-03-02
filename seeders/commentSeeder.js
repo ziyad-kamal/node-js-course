@@ -1,0 +1,35 @@
+import { faker } from "@faker-js/faker";
+import Comment from "./../app/models/Comment.js";
+
+const seedComments = async (countPerPost = 8, postIds = [], userIds = []) => {
+    try {
+        await Comment.deleteMany({});
+        console.log("🗑️  Cleared existing comments");
+
+        if (postIds.length === 0 || userIds.length === 0) {
+            throw new Error("No post/user IDs provided for comments");
+        }
+
+        const comments = [];
+
+        for (const postId of postIds) {
+            for (let i = 0; i < countPerPost; i++) {
+                comments.push({
+                    content: faker.lorem.paragraph({ min: 1, max: 3 }),
+                    author: faker.helpers.arrayElement(userIds),
+                    post: postId,
+                });
+            }
+        }
+
+        const created = await Comment.insertMany(comments);
+        console.log(`✅ Created ${created.length} comments`);
+
+        return created;
+    } catch (err) {
+        console.error("Comments seeding failed:", err.message);
+        throw err;
+    }
+};
+
+export default seedComments;
