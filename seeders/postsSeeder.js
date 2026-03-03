@@ -13,6 +13,7 @@ const seedPosts = async (count = 30, userIds = []) => {
         const posts = [];
 
         for (let i = 0; i < count; i++) {
+            const randomDate = faker.date.past({ years: 1 });
             posts.push({
                 title: faker.lorem.sentence({ min: 4, max: 10 }),
                 content: faker.lorem.paragraphs({ min: 2, max: 5 }),
@@ -31,6 +32,8 @@ const seedPosts = async (count = 30, userIds = []) => {
                     { min: 1, max: 4 },
                 ),
                 likeCount: faker.number.int({ min: 0, max: 120 }),
+                createdAt: randomDate, // ✅ random date within last 1 year
+                updatedAt: randomDate, // ✅ random date within last 1 year
             });
         }
 

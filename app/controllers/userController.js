@@ -1,10 +1,44 @@
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
+import User from "../models/User.js";
 import { returnSuccess } from "../utils/returnJson.js";
 import uploadImage from "../utils/uploadImage.js";
 
 const getPosts = async (req, res) => {
-    const posts = await Post.find();
-    res.render("posts.ejs", { posts: posts });
+    const cursor = req.query.cursor;
+    const sortField = "createdAt";
+    const query = {};
+    const limit = 10;
+
+    if (cursor) {
+        query[sortField] = { $lt: new Date(cursor) };
+    }
+
+    const posts = await Post.find(query)
+        .populate({
+            path: "comments",
+            populate: {
+                path: "author",
+                select: "username name imagePath",
+            },
+            select: "content author createdAt",
+            options: { sort: { createdAt: -1 }, limit: 5 },
+        })
+        .populate("author", "username name imagePath")
+        .sort({ createdAt: -1 })
+        .limit(limit + 1)
+        .lean();
+
+    const hasMore = posts.length > limit;
+    const results = hasMore ? posts.slice(0, limit) : posts;
+
+    const nextCursor =
+        hasMore && results.length > 0
+            ? results[results.length - 1][sortField].toISOString() // or .toString() for _id
+            : null;
+    const data = { metaData: { hasMore, nextCursor }, posts: results };
+
+    return returnSuccess(res, "", 200, data);
 };
 
 const createPost = async (req, res) => {

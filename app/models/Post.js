@@ -40,7 +40,6 @@ const postSchema = new mongoose.Schema(
     {
         timestamps: true,
         toJSON: { virtuals: true },
-        toObject: { virtuals: true },
     },
 );
 
@@ -49,8 +48,16 @@ postSchema.virtual("comments", {
     ref: "Comment",
     localField: "_id",
     foreignField: "post",
+});
+
+postSchema.virtual("commentsCount", {
+    ref: "Comment",
+    localField: "_id",
+    foreignField: "post",
     count: true,
 });
+
+postSchema.index({ createdAt: -1 });
 
 // Optional: text index for search
 postSchema.index({ title: "text", content: "text" });

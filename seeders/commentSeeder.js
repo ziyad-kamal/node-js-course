@@ -13,11 +13,15 @@ const seedComments = async (countPerPost = 8, postIds = [], userIds = []) => {
         const comments = [];
 
         for (const postId of postIds) {
+            const randomDate = faker.date.past({ years: 1 });
+
             for (let i = 0; i < countPerPost; i++) {
                 comments.push({
                     content: faker.lorem.paragraph({ min: 1, max: 3 }),
                     author: faker.helpers.arrayElement(userIds),
                     post: postId,
+                    createdAt: randomDate,
+                    updatedAt: randomDate,
                 });
             }
         }
