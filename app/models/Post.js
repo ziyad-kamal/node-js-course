@@ -19,7 +19,7 @@ const postSchema = new mongoose.Schema(
             required: true,
         },
         image: {
-            type: String, // URL to uploaded image (optional)
+            type: String,
         },
         tags: {
             type: [String],
@@ -31,7 +31,6 @@ const postSchema = new mongoose.Schema(
                 ref: "User",
             },
         ],
-        // You can also track likeCount as a number for faster queries
         likeCount: {
             type: Number,
             default: 0,
@@ -43,7 +42,6 @@ const postSchema = new mongoose.Schema(
     },
 );
 
-// Virtual: get all comments for this post
 postSchema.virtual("comments", {
     ref: "Comment",
     localField: "_id",
@@ -57,7 +55,7 @@ postSchema.virtual("commentsCount", {
     count: true,
 });
 
-postSchema.index({ title: "text", content: "text" }); // for search
+postSchema.index({ title: "text", content: "text" });
 postSchema.index({ createdAt: -1 });
 
 const Post = mongoose.model("Post", postSchema);

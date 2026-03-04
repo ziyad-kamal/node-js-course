@@ -24,17 +24,10 @@ const commentSchema = new mongoose.Schema(
                 ref: "User",
             },
         ],
-        // Optional: support replies (nested comments)
-        parentComment: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Comment",
-            default: null,
-        },
     },
     {
         timestamps: true,
         // toJSON: { virtuals: true },
-        // toObject: { virtuals: true },
     },
 );
 
