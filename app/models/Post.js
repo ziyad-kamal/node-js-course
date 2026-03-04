@@ -57,7 +57,8 @@ postSchema.virtual("commentsCount", {
     count: true,
 });
 
-postSchema.index({ title: "text", content: "text", createdAt: -1 });
+postSchema.index({ title: "text", content: "text" }); // for search
+postSchema.index({ createdAt: -1 });
 
 const Post = mongoose.model("Post", postSchema);
 
