@@ -14,14 +14,13 @@ connectDB();
 
 const app = express();
 
-app.use(session(sessionConfig.config));
-app.use(flash());
-app.use((req, res, next) => flashSession(req, res, next));
-
-app.set("view engine", "ejs");
-
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(session(sessionConfig.config));
+// app.use(flash());
+// app.use((req, res, next) => flashSession(req, res, next));
+
+// app.set("view engine", "ejs");
+// app.use(express.urlencoded({ extended: true }));
 
 app.use(`${appConfig.apiPrefix}`, userRoutes);
 
