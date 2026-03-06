@@ -20,5 +20,6 @@
     },
     "peacock.color": "#215732",
     "typescript.preferences.importModuleSpecifierEnding": "js", // ← forces .js
-    "javascript.preferences.importModuleSpecifierEnding": "js"
+    "javascript.preferences.importModuleSpecifierEnding": "js",
+    "postman.settings.dotenv-detection-notification-visibility": false
 }
