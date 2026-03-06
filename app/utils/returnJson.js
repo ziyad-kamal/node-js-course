@@ -6,14 +6,17 @@ const returnSuccess = (res, msg = "", code = 200, data = {}) => {
     return res.status(code).json(resObject);
 };
 
-const returnError = (res, msg = "", code, errors = {}) => {
-    errors = errors.array().map((err) => ({
-        [err.path]: err.msg,
-    }));
+const returnError = (res, msg = "", code, errors = []) => {
+    if (errors.length > 0) {
+        errors = errors.array().map((err) => ({
+            [err.path]: err.msg,
+        }));
+    }
+
     let resObject = { success: false, msg, errors };
 
     msg === "" ? delete resObject.msg : null;
-    errors == {} ? delete resObject.errors : null;
+    errors.length === 0 ? delete resObject.errors : null;
 
     return res.status(code).json(resObject);
 };
