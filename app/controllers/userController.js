@@ -1,18 +1,11 @@
 import Post from "../models/Post.js";
-import Comment from "../models/Comment.js";
-import User from "../models/User.js";
 import { returnSuccess } from "../utils/returnJson.js";
 import uploadImage from "../utils/uploadImage.js";
+import { getNextCursor, getQueryCursor } from "../utils/cursorPagination.js";
 
 const getPosts = async (req, res) => {
-    const cursor = req.query.cursor;
-    const sortField = "createdAt";
-    const query = {};
     const limit = 10;
-
-    if (cursor) {
-        query[sortField] = { $lt: new Date(cursor) };
-    }
+    const { query, sortField } = getQueryCursor(req, "createdAt");
 
     const posts = await Post.find(query)
         .populate({
@@ -29,13 +22,9 @@ const getPosts = async (req, res) => {
         .limit(limit + 1)
         .lean();
 
-    const hasMore = posts.length > limit;
-    const results = hasMore ? posts.slice(0, limit) : posts;
+    // prettier-ignore
+    const { hasMore, nextCursor, results } = getNextCursor(posts,limit,sortField);
 
-    const nextCursor =
-        hasMore && results.length > 0
-            ? results[results.length - 1][sortField].toISOString() // or .toString() for _id
-            : null;
     const data = { metaData: { hasMore, nextCursor }, posts: results };
 
     return returnSuccess(res, "", 200, data);
