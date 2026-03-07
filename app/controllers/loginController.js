@@ -23,29 +23,31 @@ const login = async (req, res) => {
             .json({ error: "password or email is incorrect" });
     }
 
-    const accessToken = jwt.sign(
-        {
-            user,
-        },
-        appConfig.accessTokenSecret,
-        { expiresIn: "1m" },
-    );
+    const userData = { _id: user._id, email: user.email };
 
-    const refreshToken = jwt.sign(
-        {
-            user,
-        },
-        appConfig.refreshTokenSecret,
-        { expiresIn: "3m" },
-    );
-
-    await RefreshToken.create({
-        token: refreshToken,
-        user: user._id,
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // match expiresIn
+    const accessToken = jwt.sign(userData, appConfig.accessTokenSecret, {
+        expiresIn: "1m",
     });
 
-    return returnSuccess(res, "you login successfully", 200, { accessToken });
+    const refreshToken = jwt.sign(userData, appConfig.refreshTokenSecret, {
+        expiresIn: "3m",
+    });
+
+    await RefreshToken.create({
+        accessToken,
+        refreshToken,
+        expiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // match expiresIn
+    });
+
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true, // ← very important (blocks JS access)
+        secure: appConfig.nodeEnv === "production", // true = only HTTPS (set false in dev)
+        sameSite: "strict", // or 'lax' — 'strict' is safer
+        maxAge: 15 * 60 * 1000, // match expiresIn
+        path: "/",
+    });
+
+    return returnSuccess(res, "you login successfully", 200);
 };
 
 const welcome = async (req, res) => {

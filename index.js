@@ -9,12 +9,14 @@ import {
     sessionConfig,
     flashSession,
 } from "./config/index.js";
+import cookieParser from "cookie-parser";
 
 connectDB();
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 // app.use(session(sessionConfig.config));
 // app.use(flash());
 // app.use((req, res, next) => flashSession(req, res, next));
