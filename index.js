@@ -1,15 +1,10 @@
 import express from "express";
-import userRoutes from "./routes/userRoutes.js";
-import flash from "connect-flash";
-import session from "express-session";
+import postRoutes from "./routes/postRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import errorHandler from "./app/middlewares/errorHandler.js";
-import {
-    appConfig,
-    connectDB,
-    sessionConfig,
-    flashSession,
-} from "./config/index.js";
+import { appConfig, connectDB } from "./config/index.js";
 import cookieParser from "cookie-parser";
+import { attachHelpers } from "./app/middlewares/helpers.js";
 
 connectDB();
 
@@ -24,7 +19,11 @@ app.use(cookieParser());
 // app.set("view engine", "ejs");
 // app.use(express.urlencoded({ extended: true }));
 
-app.use(`${appConfig.apiPrefix}`, userRoutes);
+app.use(attachHelpers);
+
+app.use(`${appConfig.apiPrefix}`, authRoutes);
+
+app.use(`${appConfig.apiPrefix}`, postRoutes);
 
 app.use(errorHandler);
 

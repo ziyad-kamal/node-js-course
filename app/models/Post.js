@@ -40,7 +40,13 @@ const postSchema = new mongoose.Schema(
     },
     {
         timestamps: true,
-        toJSON: { virtuals: true },
+        toJSON: {
+            virtuals: true,
+            transform: (doc, ret) => {
+                delete ret.id; // 👈 removes id from response
+                return ret;
+            },
+        },
     },
 );
 

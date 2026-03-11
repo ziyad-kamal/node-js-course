@@ -6,7 +6,7 @@ import fs from "fs";
 const uploadImage = async (req, dir, width) => {
     const fileName = `${crypto.randomBytes(16).toString("hex")}.webp`;
     const dirName = process.cwd();
-
+    dir = `/storage/${dir}`;
     const uploadDir = path.join(dirName, dir);
     const fileLocation = path.join(uploadDir, fileName);
 

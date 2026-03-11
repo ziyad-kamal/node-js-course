@@ -19,7 +19,9 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#215732",
-    "typescript.preferences.importModuleSpecifierEnding": "js", // ← forces .js
-    "javascript.preferences.importModuleSpecifierEnding": "js",
-    "postman.settings.dotenv-detection-notification-visibility": false
+    "js/ts.preferences.importModuleSpecifierEnding": "js",
+    "postman.settings.dotenv-detection-notification-visibility": false,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    }
 }
