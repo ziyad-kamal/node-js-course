@@ -1,7 +1,6 @@
 import express from "express";
 import { welcome } from "../app/controllers/loginController.js";
 import {
-    createPost,
     getPostsController,
     storePosts,
 } from "../app/controllers/postController.js";
@@ -15,8 +14,6 @@ const protectedRouter = express.Router();
 protectedRouter.use("/post", jwtVerify);
 
 protectedRouter.get("/post", getPostsController);
-
-protectedRouter.get("/post/create", createPost);
 
 protectedRouter.post(
     "/post/store",

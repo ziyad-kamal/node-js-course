@@ -9,10 +9,6 @@ const getPostsController = async (req, res) => {
     return returnSuccess(res, "", 200, data);
 };
 
-const createPost = async (req, res) => {
-    res.render("index.ejs");
-};
-
 const storePosts = async (req, res) => {
     const filePath = await uploadImage(req, "public/images", 300);
     const { title, content, author } = req.body;
@@ -22,4 +18,4 @@ const storePosts = async (req, res) => {
     return returnSuccess(res, "you created post successfully", 201, post);
 };
 
-export { createPost, getPostsController, storePosts };
+export { getPostsController, storePosts };
